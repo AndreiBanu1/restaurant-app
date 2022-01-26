@@ -1,0 +1,15 @@
+<div class="container"
+  fxLayout="column"
+  fxLayoutGap="10px">
+
+  <mat-list fxFlex>
+    <mat-list-item *ngFor="let dish of dishes">   <!-- allows to iterate trough an array of objects, like a for loop -->
+      <img matListAvatar src={{dish.image}} alt={{dish.name}}>  <!-- acces the image and name properties of every object in dish array -->
+      <h1 matLine> {{dish.name}} </h1>
+      <p matLine>
+        <span> {{dish.description}} </span>
+      </p>
+    </mat-list-item>
+  </mat-list>
+
+</div>
