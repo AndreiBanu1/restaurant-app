@@ -9,17 +9,16 @@
     </div>
   </div>
 
-  <div fxFlex>
+<div fxFlex>
     <mat-grid-list cols="2" rowHeight="200px">
-      <mat-grid-tile *ngFor="let dish of dishes">   <!-- allows to iterate trough an array of objects, like a for loop -->
-        <img height="200px" src={{dish.image}} alt={{dish.name}}>  <!-- acces the image and name properties of every object in dish array -->
+      <mat-grid-tile *ngFor="let dish of dishes">  
+        <img height="200px" src={{dish.image}} alt={{dish.name}}>  
         <mat-grid-tile-footer>
           <h1 matLine> {{dish.name | uppercase}} </h1>
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
   </div>
-
 
     <div fxFlex *ngIf="selectedDish">
         <mat-card>
@@ -39,4 +38,5 @@
         </mat-card>
     </div>
 
+    <app-dishdetail></app-dishdetail>
 </div>
