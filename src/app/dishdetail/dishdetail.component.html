@@ -6,45 +6,32 @@
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
 
-
-  <!-- <div fxFlex="40">
-    <mat-grid-list cols="2" rowHeight="200px">
-      <mat-grid-tile *ngFor="let details of dish">   
-        <img height="200px" src={{dish.image}} alt={{dish.name}}>  
-        <mat-grid-tile-footer>
-          <h1 matLine> {{DISH.name}} </h1>
-        </mat-grid-tile-footer>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-
-  <div fxFlex="40" *ngIf="selectedDish">
-    <mat-card>
+  <div fxFlex="40">
+    <mat-card *ngIf="dish">
       <mat-card-header>
             <mat-card-title>
-              <h3>{{DISH.name | uppercase}}</h3>
+              <h3>{{dish.name | uppercase}}</h3>
             </mat-card-title>
       </mat-card-header>
-      <img mat-card-iamge src={{selectedDish.image}} alt={{selectedDish.name}}>
+      <img mat-card-iamge src={{dish.image}} alt={{dish.name}}>
       <mat-card-content>
-          <p>{{DISH.description}}</p>
+          <p>{{dish.description}}</p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
       </mat-card-actions>
-    </mat-card> -->
- </div>
+    </mat-card>
+  </div>
 
+  <mat-list fxFlex="40">
+      <mat-list-item *ngIf="dish">   
+        <h3 matLine>Comments</h3>
+          <p matLine>
+           <span> {{dish.comments}} </span>
+          </p>
+           </mat-list-item>
+     </mat-list>
 
+  </div>
 
-
-
-
-
-
-
-
-
-
-</div>
