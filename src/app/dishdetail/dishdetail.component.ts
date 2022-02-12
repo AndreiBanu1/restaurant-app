@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Dish } from '../shared/dish';
 import {  DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Feedback } from '../shared/feedback';
 
 
 @Component({
@@ -18,10 +20,35 @@ export class DishdetailComponent implements OnInit {
     dishIds: string[];
     prev: string;
     next: string;
-   
+    @ViewChild('fform') feedbackFormDirective;
+    feedbackForm: FormGroup;
+    feedback: Feedback;
+  
+    
+    formErrors = {
+      'name': '',
+      'comment': ''
+    }
+  
+    validationMessages = {
+      'name': {
+        'required': 'Name is required.',
+        'minlength': 'Name must be at least 2 characters long',
+        'maxlength': 'Name cannot be more than 25 characters long'
+      },
+      'comment': {
+        'required': 'Your comment is required.',
+        'minlength': 'Name must be at least 2 characters long',
+        'maxlength': 'Name cannot be more than 50 characters long'
+      }
+    };
+
     constructor(private dishService: DishService,
       private route: ActivatedRoute,
-      private location: Location) { }
+      private location: Location,
+      private fb: FormBuilder) { 
+        this.createForm();
+      }
 
   ngOnInit() { 
     this.dishService.getDishIds()
@@ -39,5 +66,47 @@ export class DishdetailComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
+    }
+
+    createForm() {
+      this.feedbackForm = this.fb.group({
+        name: ['', [Validators.required], Validators.minLength(2), Validators.maxLength(25)],
+        comment: ['', [Validators.required], Validators.minLength(2), Validators.maxLength(50)],
+          });
+  
+      this.feedbackForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+  
+      this.onValueChanged(); // reset form validation messages
+    }
+  
+    onValueChanged(data?: any) {
+      if (!this.feedbackForm) { return; }
+      const form = this.feedbackForm;
+      for (const field in this.formErrors) {
+        if (this.formErrors.hasOwnProperty(field)) {
+          //clear previous error message (if any)
+          this.formErrors[field] = '';
+          const control = form.get(field);
+          if (control && control.dirty && !control.valid) {
+            const messages = this.validationMessages[field];
+            for (const key in control.errors) {
+              if (control.errors.hasOwnProperty(key)) {
+                this.formErrors[field] += messages[key] + ' ';
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    onSubmit() {
+      this.feedback = this.feedbackForm.value;
+      console.log(this.feedback);
+      this.feedbackForm.reset({
+        name: '',
+       comment: '',
+      });
+      this.feedbackFormDirective.resetForm();
     }
 }

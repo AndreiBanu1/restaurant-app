@@ -46,5 +46,40 @@
      <div fxFlex [hidden]="dish">
       <mat-spinner></mat-spinner> <h4>Loading . . . Please Wait</h4>
     </div>
+
+
+    <div>
+    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+        <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="name" placeholder="Name" type="text" required>
+          <mat-error *ngIf="formErrors.name">
+            {{ formErrors.name }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <div>
+     <mat-slider formControlName="rating" min="1" max="5" step="1" thumbLabel tickInterval="1">
+             </mat-slider>
+          <mat-error *ngIf="formErrors.rating">
+            {{ formErrors.rating }}
+          </mat-error>
+        </div>
+
+
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="comment" placeholder="Your comment" type="text" required>
+          <mat-error *ngIf="feedbackForm.comment">
+            Your comment is required
+                  </mat-error>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white"
+      [disabled]="feedbackForm.invalid">Submit</button>
+    </form>
+  </div>
+
   </div>
 
