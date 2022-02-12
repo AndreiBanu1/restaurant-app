@@ -49,33 +49,43 @@
 
 
     <div>
+      <h4>Rating</h4>
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
         <p>
-        <mat-form-field class="half-width">
-          <input matInput formControlName="name" placeholder="Name" type="text" required>
-          <mat-error *ngIf="formErrors.name">
-            {{ formErrors.name }}
+        <mat-form-field style="width: 300px">
+          <input matInput formControlName="author" placeholder="Author" type="text" required>
+          <mat-error *ngIf="formErrors.author">
+            {{ formErrors.author }}
           </mat-error>
         </mat-form-field>
       </p>
 
       <div>
-     <mat-slider formControlName="rating" min="1" max="5" step="1" thumbLabel tickInterval="1">
+     <mat-slider formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1">
              </mat-slider>
-          <mat-error *ngIf="formErrors.rating">
-            {{ formErrors.rating }}
-          </mat-error>
         </div>
 
 
       <p>
-        <mat-form-field class="half-width">
-          <input matInput formControlName="comment" placeholder="Your comment" type="text" required>
+        <mat-form-field style="width: 300px">
+          <textarea matInput rows="5" cols="40" formControlName="comment" placeholder="Your comment" type="text" required>
+            </textarea>
           <mat-error *ngIf="feedbackForm.comment">
-            Your comment is required
+            {{ formErrors.comment }}
                   </mat-error>
         </mat-form-field>
       </p>
+
+<!-- 
+      <div fxFlex class="form-size" [@expand] [@visibility]="visibility">
+          <div [hidden]="commentForm.invalid">
+            <p>{{feedbackForm.value.comment}}</p>
+            <p>{{feedbackForm.value.rating}} Stars</p>
+            <p> -- {{feedbackForm.value.name}}</p>
+          </div>
+      </div> -->
+
+     
       <button type="submit" mat-button class="background-primary text-floral-white"
       [disabled]="feedbackForm.invalid">Submit</button>
     </form>

@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Dish } from '../shared/dish';
-import {  DishService } from '../services/dish.service';
+import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback } from '../shared/feedback';
+import { Comment } from '../shared/comment';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -20,26 +22,27 @@ export class DishdetailComponent implements OnInit {
     dishIds: string[];
     prev: string;
     next: string;
+   
     @ViewChild('fform') feedbackFormDirective;
     feedbackForm: FormGroup;
-    feedback: Feedback;
+    feedback: Comment;
   
     
     formErrors = {
-      'name': '',
+      'author': '',
       'comment': ''
     }
   
     validationMessages = {
-      'name': {
+      'author': {
         'required': 'Name is required.',
         'minlength': 'Name must be at least 2 characters long',
         'maxlength': 'Name cannot be more than 25 characters long'
       },
       'comment': {
         'required': 'Your comment is required.',
-        'minlength': 'Name must be at least 2 characters long',
-        'maxlength': 'Name cannot be more than 50 characters long'
+        'minlength': 'Your comment must be at least 2 characters long',
+        'maxlength': 'Your comment cannot be more than 500 characters long'
       }
     };
 
@@ -68,10 +71,12 @@ export class DishdetailComponent implements OnInit {
         this.location.back();
     }
 
-    createForm() {
+    createForm(): void {
       this.feedbackForm = this.fb.group({
-        name: ['', [Validators.required], Validators.minLength(2), Validators.maxLength(25)],
-        comment: ['', [Validators.required], Validators.minLength(2), Validators.maxLength(50)],
+        author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+        comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(500)]],
+        rating: 5,
+        date: ['']
           });
   
       this.feedbackForm.valueChanges
@@ -102,11 +107,16 @@ export class DishdetailComponent implements OnInit {
   
     onSubmit() {
       this.feedback = this.feedbackForm.value;
-      console.log(this.feedback);
+      this.feedback.date = new Date().toISOString();
+      this.dish.comments.push(this.feedback);
       this.feedbackForm.reset({
-        name: '',
-       comment: '',
+        author: '',
+        comment: '',
+        date: '' 
       });
-      this.feedbackFormDirective.resetForm();
+      this.feedbackFormDirective.resetForm({rating: 5});
     }
 }
+
+
+// Your comment is not showing error messages
