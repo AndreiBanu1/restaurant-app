@@ -76,16 +76,13 @@
         </mat-form-field>
       </p>
 
-<!-- 
-      <div fxFlex class="form-size" [@expand] [@visibility]="visibility">
-          <div [hidden]="commentForm.invalid">
-            <p>{{feedbackForm.value.comment}}</p>
-            <p>{{feedbackForm.value.rating}} Stars</p>
-            <p> -- {{feedbackForm.value.name}}</p>
-          </div>
-      </div> -->
+        <div [hidden]="feedbackForm.invalid">
+          <p>{{feedbackForm.value.comment}}</p>
+          <p>{{feedbackForm.value.rating}} Stars</p>
+          <p> -- {{feedbackForm.value.name}}</p>
+        </div>
 
-     
+    
       <button type="submit" mat-button class="background-primary text-floral-white"
       [disabled]="feedbackForm.invalid">Submit</button>
     </form>
