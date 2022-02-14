@@ -41,51 +41,52 @@
              <h1 matLine>-- {{item.author}} {{ item.date | date }}</h1>
            </mat-list-item>
      </mat-list>
-    </div>
+     
+     <mat-list *ngIf="feedbackForm.valid">
+      <mat-list-item>
+      <h4 matLine>Rating</h4>
+      <p matLine>{{feedbackForm.get('comment').value}}</p>
+      <p matLine>{{feedbackForm.get('rating').value}} Stars</p>
+      <p matLine> 
+        <span>-- {{feedbackForm.get('author').value}}</span>
+      </p>
+    </mat-list-item>
+    </mat-list>
 
-     <div fxFlex [hidden]="dish">
+    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <p>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="author" placeholder="Author" type="text" required>
+            <mat-error *ngIf="formErrors.author">
+              {{ formErrors.author }}
+            </mat-error>
+           </mat-form-field>
+ 
+     <mat-slider formControlName="rating" min="1" max="5" step="1" thumbLabel tickInterval="1">
+             </mat-slider>
+
+              <mat-form-field class="full-width">
+                <textarea matInput formControlName="comment" placeholder="Your comment" type="text" required>
+                  <mat-error *ngIf="formErrors.comment">
+                    {{ formErrors.comment }}
+                  </mat-error>
+                </textarea>
+              </mat-form-field>
+      </p>
+      
+      <button type="submit" mat-button class="background-primary text-floral-white"
+       [disabled]="feedbackForm.invalid">Submit</button>
+    </form>
+  </div>
+
+    <div fxFlex [hidden]="dish || errMess">
       <mat-spinner></mat-spinner> <h4>Loading . . . Please Wait</h4>
     </div>
 
-    <div>
-      <h4>Rating</h4>
-    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
-        <p>
-        <mat-form-field style="width: 300px">
-          <input matInput formControlName="author" placeholder="Author" type="text" required>
-          <mat-error *ngIf="formErrors.author">
-            {{ formErrors.author }}
-          </mat-error>
-        </mat-form-field>
-      </p>
-
-      <div>
-     <mat-slider formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1">
-             </mat-slider>
-        </div>
-
-
-      <p>
-        <mat-form-field style="width: 300px">
-          <textarea matInput rows="5" cols="40" formControlName="comment" placeholder="Your comment" type="text" required>
-            </textarea>
-          <mat-error *ngIf="feedbackForm.comment">
-            {{ formErrors.comment }}
-                  </mat-error>
-        </mat-form-field>
-      </p>
-
-        <div [hidden]="feedbackForm.invalid">
-          <p>{{feedbackForm.value.comment}}</p>
-          <p>{{feedbackForm.value.rating}} Stars</p>
-          <p> -- {{feedbackForm.value.name}}</p>
-        </div>
-
-    
-      <button type="submit" mat-button class="background-primary text-floral-white"
-      [disabled]="feedbackForm.invalid">Submit</button>
-    </form>
-  </div>
+    <div fxFlex *ngIf="errMess">
+      <h2>Error</h2>
+      <h4>{{errMess}}</h4>
+    </div>
 
   </div>
 
