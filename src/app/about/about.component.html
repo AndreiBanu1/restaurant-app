@@ -59,7 +59,7 @@
           <mat-list-item *ngFor="let chief of leaders" [@expand]> 
 
             <div fxFlex fxLayoutAlign="start center" >
-            <img height="60px" src={{chief.image}} alt={{chief.name}}>
+            <img height="60px" src="{{BaseURL + chief.image}}" alt={{chief.name}}>
             </div>
             
             <p matLine>{{chief.name}}, {{chief.abbr}}</p>
@@ -67,7 +67,7 @@
              <p matLine>{{chief.description}}</p>
            </mat-list-item>
      </mat-list>
-     <div fxFlex [hidden]="leaders">
+     <div fxFlex [hidden]="leaders || leaderErrMess">
       <mat-spinner></mat-spinner> <h4>Loading . . . Please Wait</h4>
     </div>
 
