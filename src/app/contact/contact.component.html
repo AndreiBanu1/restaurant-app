@@ -36,10 +36,12 @@
     </div>
   </div>
 
+
+<!-- Feedback Form empty -->
     <div fxFlex fxFlexOffset="20px" class="form-size">
       <h3>Send us your Feedback</h3>
   
-      <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()"  [@visibility]="visibility" [@expand]>
         <p>
           <mat-form-field class="half-width">
             <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
@@ -91,7 +93,39 @@
 
         <button type="submit" mat-button class="background-primary text-floral-white"
         [disabled]="feedbackForm.invalid">Submit</button>
-        
-      </form>
+        </form>
+
+          <!-- <div *ngIf="feedback" [@visibility]="shown" class="response">
+          <mat-spinner></mat-spinner> <h4>Loading . . . Please Wait</h4>
+        </div> -->
+
+
+  <!-- Feedback Form results -->
+        <div fxFlex="40" *ngIf="feedback" name="response" class="response"  [@visibility]="shown" [@expand]> 
+          <mat-list>
+            <h3 matLine> Your submission </h3>
+              <mat-list-item>   
+                <h1 matLine>First Name: {{feedback.firstname}}</h1>
+                 <h1 matLine>Last Name: {{feedback.lastname}}</h1>
+                 <h1 matLine>Tel. Number: {{feedback.telnum}}</h1>
+                 <h1 matLine>Email: {{feedback.email}}</h1>
+                 <h1 matLine>Contact You?: {{feedback.agree}}</h1>
+                 <h1 matLine>How: {{feedback.contacttype}}</h1>
+                 <h1 matLine>Feedback: {{feedback.message}}</h1>
+                   </mat-list-item>
+             </mat-list>
+
+          <mat-list *ngIf="feedbackForm.valid">
+                <mat-list-item> 
+                     <h1 matLine>First Name: {{feedbackForm.get('firstname').value}}</h1>
+                           <h1 matLine>Last Name: {{feedbackForm.get('lastname').value}}</h1>
+                           <h1 matLine>Tel. Number: {{feedbackForm.get('telnum').value}}</h1>
+                           <h1 matLine>Email: {{feedbackForm.get('email').value}}</h1>
+                           <h1 matLine>Contact You?: {{feedbackForm.get('agree').value}}</h1>
+                           <h1 matLine>How: {{feedbackForm.get('contacttype').value}}</h1>
+                           <h1 matLine>Feedback: {{feedbackForm.get('message').value}}</h1>
+                   </mat-list-item>
+             </mat-list>
+
     </div>
 </div>

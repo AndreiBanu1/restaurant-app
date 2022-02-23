@@ -36,7 +36,7 @@ export class PromotionService {
         .pipe(catchError(error => error));
       }
      
-     putDish(promotion: Promotion): Observable<Promotion> {
+     putPromotion(promotion: Promotion): Observable<Promotion> {
        const httpOptions = {
          headers: new HttpHeaders({
            'Content-Type': 'application/json'
